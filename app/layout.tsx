@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import { GoogleTagManager } from '@next/third-parties/google';
-import Clarity from "@/components/Clarity";
 import StructuredData from "@/components/SEO/StructuredData";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import Footer from "@/components/layout/Footer";
+import TrackingScripts from "@/components/layout/TrackingScripts";
+import CookieConsent from "@/components/layout/CookieConsent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -18,6 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  // ... (metadata remains the same)
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://contacto.app'),
   title: "ConTacto | Asistente de Comunicación",
   description: "Analiza mensajes y responde con tacto, claridad y estrategia.",
@@ -56,8 +58,6 @@ export const metadata: Metadata = {
   },
 };
 
-import Footer from "@/components/layout/Footer";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -66,13 +66,13 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${inter.variable} ${playfair.variable} antialiased font-sans bg-slate-50 text-slate-900`}
+        className={`${inter.variable} ${playfair.variable} antialiased font-sans bg-slate-50 text-slate-900 w-full overflow-x-hidden`}
       >
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
-        <Clarity />
+        <TrackingScripts />
         <StructuredData />
         {children}
         <Footer />
+        <CookieConsent />
         <SpeedInsights />
         <Analytics />
       </body>
