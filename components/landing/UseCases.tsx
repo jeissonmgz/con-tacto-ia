@@ -23,11 +23,11 @@ const cases = [
 
 export default function UseCases() {
     return (
-        <section className="py-24 bg-slate-50">
+        <section className="py-24 bg-cream-100">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-serif text-slate-900 mb-4">Para cada momento crítico</h2>
-                    <p className="text-slate-600 max-w-xl mx-auto">ConTacto se adapta a tus necesidades profesionales y personales.</p>
+                    <p className="text-slate-700 max-w-xl mx-auto font-medium">ConTacto se adapta a tus necesidades profesionales y personales.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -37,14 +37,14 @@ export default function UseCases() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1, duration: 0.4 }}
-                            className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100"
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
+                            className="bg-cream-50/80 backdrop-blur-sm p-8 rounded-[2rem] border border-cream-200 hover:shadow-lg hover:shadow-sand-500/5 transition-all duration-300"
                         >
-                            <div className="w-12 h-12 bg-indigo-50 text-indigo-900 rounded-xl flex items-center justify-center mb-6">
-                                <item.icon className="w-6 h-6" />
+                            <div className="w-14 h-14 bg-cream-200 text-sand-800 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                                <item.icon className="w-7 h-7" />
                             </div>
                             <h3 className="text-xl font-semibold mb-3 text-slate-900">{item.title}</h3>
-                            <p className="text-slate-600">{item.description}</p>
+                            <p className="text-slate-700 font-normal leading-relaxed">{item.description}</p>
                         </motion.div>
                     ))}
                 </div>

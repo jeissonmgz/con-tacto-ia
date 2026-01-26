@@ -3,19 +3,55 @@
 @theme {
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
+
+  --color-cream-50: #fffdfa;
+  --color-cream-100: #fdf8f1;
+  --color-cream-200: #f9f1e4;
+  --color-cream-300: #f3e5cf;
+  --color-sand-500: #d4bda1;
+  --color-sand-600: #b89d81;
+  --color-sand-800: #5c4d3c;
+  /* AAA compliant on cream-100 */
+  --color-sand-900: #3d342a;
+  /* AAA compliant on cream-100 */
 }
 
 :root {
-  --background: #f8fafc; /* slate-50 */
-  --foreground: #0f172a; /* slate-900 */
+  --background: #fdf8f1;
+  /* cream-100 */
+  --foreground: #1a1816;
+  /* high contrast charcoal */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  background-image: radial-gradient(circle at top right, #fdf8f1 0%, #f9f1e4 100%);
+  min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
+  color: var(--foreground);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(184, 157, 129, 0.1);
+}
+
+.glass-dark {
+  background: rgba(45, 42, 38, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

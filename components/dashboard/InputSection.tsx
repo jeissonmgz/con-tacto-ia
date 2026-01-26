@@ -36,29 +36,29 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6"
+            className="glass p-8 rounded-[2.5rem]"
         >
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                    <label className="block text-sm font-bold text-slate-800 mb-2 ml-1">
                         Mensaje a analizar
                     </label>
                     <textarea
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Pega aquí el mensaje que recibiste..."
-                        className="w-full h-32 p-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none text-slate-900 placeholder:text-slate-400"
+                        className="w-full h-40 p-5 rounded-2xl border border-cream-300 focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 transition-all resize-none text-slate-900 placeholder:text-slate-500 bg-cream-50/50 backdrop-blur-sm font-medium"
                         required
                     />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                     <div>
-                        <label className="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Medio</label>
+                        <label className="block text-[10px] font-bold text-sand-900 mb-1.5 uppercase tracking-widest ml-1">Medio</label>
                         <select
                             value={context.medium}
                             onChange={(e) => setContext({ ...context, medium: e.target.value })}
-                            className="w-full p-2.5 rounded-lg border border-slate-200 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-slate-50 text-slate-900"
+                            className="w-full p-3 rounded-xl border border-cream-300 text-sm focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 bg-cream-50/50 backdrop-blur-sm text-slate-900 appearance-none cursor-pointer font-semibold"
                         >
                             <option value="chat">Chat / Mensajería</option>
                             <option value="email">Email</option>
@@ -66,11 +66,11 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                         </select>
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Ámbito</label>
+                        <label className="block text-[10px] font-bold text-sand-900 mb-1.5 uppercase tracking-widest ml-1">Ámbito</label>
                         <select
                             value={context.scope}
                             onChange={(e) => setContext({ ...context, scope: e.target.value })}
-                            className="w-full p-2.5 rounded-lg border border-slate-200 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-slate-50 text-slate-900"
+                            className="w-full p-3 rounded-xl border border-cream-300 text-sm focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 bg-cream-50/50 backdrop-blur-sm text-slate-900 appearance-none cursor-pointer font-semibold"
                         >
                             <option value="work">Trabajo / Profesional</option>
                             <option value="personal">Personal / Amigos</option>
@@ -79,11 +79,11 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                         </select>
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wider">Relación</label>
+                        <label className="block text-[10px] font-bold text-sand-900 mb-1.5 uppercase tracking-widest ml-1">Relación</label>
                         <select
                             value={context.relation}
                             onChange={(e) => setContext({ ...context, relation: e.target.value })}
-                            className="w-full p-2.5 rounded-lg border border-slate-200 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-slate-50 text-slate-900"
+                            className="w-full p-3 rounded-xl border border-cream-300 text-sm focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 bg-cream-50/50 backdrop-blur-sm text-slate-900 appearance-none cursor-pointer font-semibold"
                         >
                             <option value="peer">Par / Colega</option>
                             <option value="superior">Superior / Jefe</option>
@@ -94,11 +94,11 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                     </div>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex justify-center">
                     <button
                         type="submit"
                         disabled={isLoading || !message.trim()}
-                        className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                        className="bg-slate-900 text-cream-50 px-10 py-4 rounded-full font-medium hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg shadow-sand-500/20"
                     >
                         {isLoading ? (
                             <>
