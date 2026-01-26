@@ -19,6 +19,28 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "ConTacto | Asistente de Comunicación",
   description: "Analiza mensajes y responde con tacto, claridad y estrategia.",
+  openGraph: {
+    title: "ConTacto | Asistente de Comunicación",
+    description: "Analiza mensajes y responde con tacto, claridad y estrategia.",
+    url: process.env.NEXT_PUBLIC_APP_URL,
+    siteName: "ConTacto",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ConTacto Preview",
+      },
+    ],
+    locale: "es_ES",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ConTacto | Asistente de Comunicación",
+    description: "Analiza mensajes y responde con tacto, claridad y estrategia.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
