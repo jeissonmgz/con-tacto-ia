@@ -43,25 +43,30 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
             className="space-y-8"
         >
             {/* Analysis Cards */}
+            {/* Analysis Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-orange-50/50 backdrop-blur-sm p-6 rounded-3xl border border-orange-200 shadow-sm">
-                    <h3 className="text-[10px] font-bold text-orange-900 mb-3 uppercase tracking-widest">Tono Emocional</h3>
-                    <p className="text-orange-950 font-semibold leading-relaxed">{data.analysis.emotionalTone}</p>
+                <div className="glass p-6 rounded-3xl border border-sand-500/30 shadow-sm relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-sand-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+                    <h3 className="text-[10px] font-bold text-sand-800 mb-3 uppercase tracking-widest relative z-10">Tono Emocional</h3>
+                    <p className="text-slate-900 font-semibold leading-relaxed relative z-10">{data.analysis.emotionalTone}</p>
                 </div>
-                <div className="bg-blue-50/50 backdrop-blur-sm p-6 rounded-3xl border border-blue-200 shadow-sm">
-                    <h3 className="text-[10px] font-bold text-blue-900 mb-3 uppercase tracking-widest">Mensaje Implícito</h3>
-                    <p className="text-blue-950 font-semibold leading-relaxed">{data.analysis.implicitMessage}</p>
+                <div className="glass p-6 rounded-3xl border border-sand-500/30 shadow-sm relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-sand-600/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+                    <h3 className="text-[10px] font-bold text-sand-800 mb-3 uppercase tracking-widest relative z-10">Mensaje Implícito</h3>
+                    <p className="text-slate-900 font-semibold leading-relaxed relative z-10">{data.analysis.implicitMessage}</p>
                 </div>
             </div>
 
             {/* Risks */}
+            {/* Risks */}
             {data.analysis.risks.length > 0 && (
-                <div className="bg-red-50/50 backdrop-blur-sm p-6 rounded-3xl border border-red-200 shadow-sm">
-                    <h3 className="text-[10px] font-bold text-red-900 mb-3 uppercase tracking-widest">Riesgos Detectados</h3>
-                    <ul className="space-y-2">
+                <div className="glass p-6 rounded-3xl border border-red-200/50 shadow-sm relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-2xl -mr-10 -mt-10" />
+                    <h3 className="text-[10px] font-bold text-teal-800 mb-3 uppercase tracking-widest relative z-10">Riesgos Detectados</h3>
+                    <ul className="space-y-2 relative z-10">
                         {data.analysis.risks.map((risk, i) => (
-                            <li key={i} className="text-red-950 flex items-start gap-2 text-sm font-medium">
-                                <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-1.5 shrink-0" />
+                            <li key={i} className="text-slate-900 flex items-start gap-2 text-sm font-medium">
+                                <span className="w-1.5 h-1.5 bg-teal-500 rounded-full mt-1.5 shrink-0" />
                                 {risk}
                             </li>
                         ))}
@@ -117,14 +122,16 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
             </div>
 
             {/* Clarifying Questions */}
+            {/* Clarifying Questions */}
             {data.analysis.clarifyingQuestions.length > 0 && (
-                <div className="bg-sand-500/10 backdrop-blur-sm p-8 rounded-[2.5rem] border border-sand-500/30">
-                    <h3 className="font-serif text-xl font-bold text-slate-900 mb-6">Preguntas para aclarar</h3>
-                    <p className="text-slate-800 mb-6 text-sm font-semibold">Antes de responder, considera si necesitas preguntar esto:</p>
-                    <ul className="space-y-4">
+                <div className="glass p-8 rounded-[2.5rem] border border-sand-500/20 relative overflow-hidden">
+                    <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-sand-500/5 to-transparent pointer-events-none" />
+                    <h3 className="font-serif text-xl font-bold text-slate-900 mb-6 relative z-10">Preguntas para aclarar</h3>
+                    <p className="text-sand-800 mb-6 text-sm font-semibold relative z-10">Antes de responder, considera si necesitas preguntar esto:</p>
+                    <ul className="space-y-4 relative z-10">
                         {data.analysis.clarifyingQuestions.map((q, i) => (
                             <li key={i} className="flex gap-4 items-start text-slate-900">
-                                <span className="bg-sand-900 text-cream-50 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 shadow-sm">{i + 1}</span>
+                                <span className="bg-sand-800 text-cream-50 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 shadow-sm">{i + 1}</span>
                                 <p className="font-medium leading-relaxed">{q}</p>
                             </li>
                         ))}

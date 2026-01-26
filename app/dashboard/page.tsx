@@ -47,7 +47,7 @@ export default function Dashboard() {
     return (
         <div className="min-h-screen bg-cream-100 flex flex-col md:flex-row selection:bg-sand-500/30">
             {/* Mobile Header */}
-            <div className="md:hidden bg-cream-50/80 backdrop-blur-md p-4 border-b border-cream-200 flex justify-between items-center sticky top-0 z-20">
+            <div className="md:hidden bg-cream-50/80 backdrop-blur-md p-4 border-b border-cream-200 flex justify-between items-center sticky top-0 z-30">
                 <Link href="/" className="font-serif text-xl font-bold text-slate-900">ConTacto</Link>
                 <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 bg-cream-200 rounded-lg">
                     {isSidebarOpen ? <X /> : <Menu />}
@@ -56,7 +56,7 @@ export default function Dashboard() {
 
             {/* Sidebar */}
             <aside className={`
-        fixed inset-y-0 left-0 z-10 w-80 bg-cream-50/90 backdrop-blur-xl border-r border-cream-200 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0
+        fixed inset-y-0 left-0 z-50 w-80 bg-cream-50/90 backdrop-blur-xl border-r border-cream-200 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
                 <div className="p-6 h-full flex flex-col">
@@ -83,7 +83,7 @@ export default function Dashboard() {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-[calc(100vh-64px)] md:h-screen">
+            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-[calc(100vh-64px)] md:h-screen relative z-0">
                 <div className="max-w-4xl mx-auto">
                     {!currentAnalysis ? (
                         <div className="max-w-2xl mx-auto pt-10 md:pt-20">
@@ -115,7 +115,7 @@ export default function Dashboard() {
             {/* Overlay for mobile sidebar */}
             {isSidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-black/10 backdrop-blur-sm z-0 md:hidden"
+                    className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
                     onClick={() => setIsSidebarOpen(false)}
                 />
             )}

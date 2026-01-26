@@ -25,22 +25,27 @@ export default function HistorySidebar() {
                     <button
                         key={item.id}
                         onClick={() => setCurrentAnalysis(item)}
-                        className={`w-full text-left p-5 rounded-2xl transition-all border ${currentAnalysis?.id === item.id
-                                ? 'bg-cream-200 border-sand-500/30 shadow-md shadow-sand-500/10 ring-1 ring-sand-500/10'
-                                : 'bg-cream-50/50 border-cream-200 hover:bg-cream-100 hover:border-cream-300'
+                        className={`w-full text-left p-5 rounded-2xl transition-all border group relative overflow-hidden ${currentAnalysis?.id === item.id
+                            ? 'glass border-sand-500/30 shadow-md shadow-sand-500/10'
+                            : 'bg-white/30 border-white/40 hover:bg-white/50 hover:border-white/60 hover:shadow-sm'
                             }`}
                     >
-                        <div className="flex items-start gap-3 mb-3">
-                            <MessageSquare className={`w-4 h-4 mt-1 shrink-0 text-sand-800`} />
-                            <p className="text-sm font-semibold text-slate-900 line-clamp-2 leading-relaxed">
+                        {currentAnalysis?.id === item.id && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-sand-500 to-sand-600" />
+                        )}
+                        <div className="flex items-start gap-3 mb-3 relative z-10">
+                            <MessageSquare className={`w-4 h-4 mt-1 shrink-0 ${currentAnalysis?.id === item.id ? 'text-sand-800' : 'text-sand-600 group-hover:text-sand-800'} transition-colors`} />
+                            <p className={`text-sm font-semibold line-clamp-2 leading-relaxed transition-colors ${currentAnalysis?.id === item.id ? 'text-slate-900' : 'text-slate-700 group-hover:text-slate-900'}`}>
                                 {item.originalMessage}
                             </p>
                         </div>
-                        <div className="flex items-center justify-between pl-7">
-                            <p className="text-[10px] text-sand-800 font-bold uppercase tracking-wider">
+                        <div className="flex items-center justify-between pl-7 relative z-10">
+                            <p className="text-[10px] text-sand-800 font-bold uppercase tracking-wider opacity-80 group-hover:opacity-100 transition-opacity">
                                 {formatDistanceToNow(item.timestamp, { addSuffix: true, locale: es })}
                             </p>
-                            <div className="w-1.5 h-1.5 rounded-full bg-sand-500/50" />
+                            {currentAnalysis?.id === item.id && (
+                                <div className="w-1.5 h-1.5 rounded-full bg-sand-500 animate-pulse" />
+                            )}
                         </div>
                     </button>
                 ))}

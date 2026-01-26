@@ -23,7 +23,12 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <section className="py-24 bg-cream-50/50">
+        <section className="py-24 bg-gradient-to-b from-cream-50 to-cream-200 relative overflow-hidden">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-[20%] left-[-5%] w-[40%] h-[40%] bg-cream-200/30 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[20%] right-[-5%] w-[40%] h-[40%] bg-sand-500/10 rounded-full blur-[100px]" />
+            </div>
             <div className="container mx-auto px-4">
                 <div className="text-center mb-20">
                     <h2 className="text-3xl md:text-4xl font-serif text-slate-900 mb-4">Cómo funciona</h2>

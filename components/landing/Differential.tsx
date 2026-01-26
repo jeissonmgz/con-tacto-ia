@@ -2,10 +2,11 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { sendGTMEvent } from '@/lib/gtm';
 
 export default function Differential() {
     return (
-        <section className="py-24 bg-sand-900 text-cream-50 overflow-hidden relative">
+        <section className="py-24 bg-gradient-to-br from-sand-900 to-sand-950 text-cream-50 overflow-hidden relative">
             <div className="container mx-auto px-4 relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
                     <motion.h2
@@ -23,7 +24,8 @@ export default function Differential() {
                     </p>
                     <Link
                         href="/dashboard"
-                        className="btn-premium px-10 py-4 rounded-full text-lg font-bold transition-all"
+                        className="inline-block px-10 py-4 rounded-full text-lg font-bold transition-all bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-105 shadow-lg shadow-black/10 text-white"
+                        onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Landing', label: 'Differential' })}
                     >
                         Comenzar ahora
                     </Link>
@@ -31,9 +33,9 @@ export default function Differential() {
             </div>
 
             {/* Background decoration */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-sand-500 rounded-full blur-[150px]" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-cream-100 rounded-full blur-[150px]" />
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-sand-600 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-teal-900 rounded-full blur-[120px]" />
             </div>
         </section>
     );

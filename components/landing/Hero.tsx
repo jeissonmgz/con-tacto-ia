@@ -9,7 +9,7 @@ import Image from 'next/image';
 
 export default function Hero() {
     return (
-        <section className="relative overflow-hidden pt-8">
+        <section className="relative overflow-hidden py-16">
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col lg:flex-row items-center gap-16">
                     <motion.div
@@ -31,9 +31,11 @@ export default function Hero() {
                         <div className="flex justify-center lg:justify-start gap-4">
                             <Link
                                 href="/dashboard"
-                                className="btn-premium px-10 py-4 rounded-full text-lg font-bold transition-all"
+                                className="btn-premium px-10 py-4 rounded-full text-lg font-bold transition-all flex items-center gap-2"
+                                onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Landing', label: 'Hero' })}
                             >
-                                Analizar mensaje
+                                <h2 className='text-cream-50'>Analizar mensaje</h2>
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
                     </motion.div>
@@ -58,7 +60,7 @@ export default function Hero() {
                         >
                             <div className="relative rounded-[3rem] overflow-hidden shadow-2xl shadow-sand-900/20 border-8 border-white/50 glass p-2">
                                 <Image
-                                    src="/hero-3d.png"
+                                    src="/chat.png"
                                     alt="Ilustración 3D de comunicación consciente"
                                     width={600}
                                     height={600}
