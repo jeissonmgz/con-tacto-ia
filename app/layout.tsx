@@ -17,19 +17,27 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://contacto.app'),
   title: "ConTacto | Asistente de Comunicación",
   description: "Analiza mensajes y responde con tacto, claridad y estrategia.",
+  keywords: ["comunicación", "asistente IA", "tacto", "inteligencia emocional", "mensajería", "estrategia"],
+  authors: [{ name: "ConTacto Team" }],
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "ConTacto | Asistente de Comunicación",
     description: "Analiza mensajes y responde con tacto, claridad y estrategia.",
-    url: process.env.NEXT_PUBLIC_APP_URL,
+    url: "/",
     siteName: "ConTacto",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ConTacto Preview",
+        alt: "ConTacto - Asistente de Comunicación con Tacto",
+        type: "image/png",
       },
     ],
     locale: "es_ES",
@@ -40,6 +48,10 @@ export const metadata: Metadata = {
     title: "ConTacto | Asistente de Comunicación",
     description: "Analiza mensajes y responde con tacto, claridad y estrategia.",
     images: ["/og-image.png"],
+    creator: "@contacto_app", // Placeholder
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
