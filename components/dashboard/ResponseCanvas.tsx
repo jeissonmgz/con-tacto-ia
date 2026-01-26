@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Copy, RefreshCw, Save } from 'lucide-react';
 import { AnalysisResult } from '@/store/useStore';
+import { sendGTMEvent } from '@/lib/gtm';
 
 interface ResponseCanvasProps {
     data: AnalysisResult;
@@ -25,6 +26,11 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(editedResponse);
+        sendGTMEvent({
+            event: 'copy_response',
+            category: 'Engagement',
+            label: data.id
+        });
         // Could add toast here
     };
 
@@ -125,7 +131,21 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
                             }
                         }}
                     />
-                    <button className="bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-300 transition-colors">
+                    <button
+                        onClick={() => {
+                            const input = document.querySelector('input[placeholder="Agregar una nota personal..."]') as HTMLInputElement;
+                            if (input && input.value.trim()) {
+                                onUpdate({ ...data, comments: [...data.comments, input.value.trim()] });
+                                sendGTMEvent({
+                                    event: 'add_comment',
+                                    category: 'Engagement',
+                                    label: data.id
+                                });
+                                input.value = '';
+                            }
+                        }}
+                        className="bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-300 transition-colors"
+                    >
                         Agregar
                     </button>
                 </div>

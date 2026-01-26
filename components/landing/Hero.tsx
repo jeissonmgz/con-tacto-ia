@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { sendGTMEvent } from '@/lib/gtm';
 
 export default function Hero() {
     return (
@@ -23,6 +24,7 @@ export default function Hero() {
                     <div className="flex justify-center gap-4">
                         <Link
                             href="/dashboard"
+                            onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Landing', label: 'Hero' })}
                             className="group bg-slate-900 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-slate-800 transition-all flex items-center gap-2"
                         >
                             Analizar un mensaje

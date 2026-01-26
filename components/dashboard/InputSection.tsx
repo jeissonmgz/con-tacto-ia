@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Send, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { sendGTMEvent } from '@/lib/gtm';
 
 interface InputSectionProps {
     onSubmit: (data: { message: string; context: any }) => void;
@@ -20,6 +21,14 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!message.trim()) return;
+
+        sendGTMEvent({
+            event: 'analyze_message',
+            category: 'Analysis',
+            label: context.scope,
+            medium: context.medium
+        });
+
         onSubmit({ message, context });
     };
 
