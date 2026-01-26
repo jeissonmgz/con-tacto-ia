@@ -41,6 +41,17 @@ h6 {
   color: var(--foreground);
 }
 
+@layer base {
+
+  button,
+  a,
+  select,
+  input[type="submit"],
+  input[type="button"] {
+    cursor: pointer !important;
+  }
+}
+
 .glass {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(12px);

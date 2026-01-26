@@ -63,12 +63,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
-      <Clarity />
-      <StructuredData />
       <body
         className={`${inter.variable} ${playfair.variable} antialiased font-sans bg-slate-50 text-slate-900`}
       >
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
+        <Clarity />
+        <StructuredData />
         {children}
         <SpeedInsights />
         <Analytics />

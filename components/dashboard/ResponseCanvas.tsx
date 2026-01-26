@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Copy, RefreshCw, Save } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Copy, Check, RefreshCw, Save } from 'lucide-react';
 import { AnalysisResult } from '@/store/useStore';
 import { sendGTMEvent } from '@/lib/gtm';
 
@@ -13,6 +13,7 @@ interface ResponseCanvasProps {
 
 export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) {
     const [editedResponse, setEditedResponse] = useState(data.userEditedResponse || data.analysis.suggestedResponse);
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         setEditedResponse(data.userEditedResponse || data.analysis.suggestedResponse);
@@ -26,12 +27,13 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(editedResponse);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
         sendGTMEvent({
             event: 'copy_response',
             category: 'Engagement',
             label: data.id
         });
-        // Could add toast here
     };
 
     return (
@@ -74,10 +76,34 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
                     <div className="flex gap-2">
                         <button
                             onClick={copyToClipboard}
-                            className="p-3 bg-cream-100 hover:bg-cream-200 rounded-xl transition-all text-sand-800 hover:text-slate-900 shadow-sm"
+                            className="p-3 bg-cream-100 hover:bg-cream-200 rounded-xl transition-all text-sand-800 hover:text-slate-900 shadow-sm flex items-center gap-2 relative overflow-hidden min-w-[120px] justify-center"
                             title="Copiar al portapapeles"
                         >
-                            <Copy className="w-5 h-5" />
+                            <AnimatePresence mode="wait">
+                                {copied ? (
+                                    <motion.div
+                                        key="check"
+                                        initial={{ y: 20, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        exit={{ y: -20, opacity: 0 }}
+                                        className="flex items-center gap-2 text-green-700"
+                                    >
+                                        <Check className="w-5 h-5" />
+                                        <span className="text-sm font-bold">¡Copiado!</span>
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        key="copy"
+                                        initial={{ y: 20, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        exit={{ y: -20, opacity: 0 }}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <Copy className="w-5 h-5" />
+                                        <span className="text-sm font-bold">Copiar</span>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </button>
                     </div>
                 </div>

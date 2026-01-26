@@ -1,4 +1,4 @@
-import React from 'react';
+import Script from 'next/script';
 
 export default function StructuredData() {
     const softwareAppSchema = {
@@ -39,11 +39,13 @@ export default function StructuredData() {
 
     return (
         <>
-            <script
+            <Script
+                id="ld-json-software"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
             />
-            <script
+            <Script
+                id="ld-json-website"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
             />
