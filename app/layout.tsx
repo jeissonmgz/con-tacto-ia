@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { GoogleTagManager } from '@next/third-parties/google';
 import Clarity from "@/components/Clarity";
+import StructuredData from "@/components/SEO/StructuredData";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
@@ -64,6 +65,7 @@ export default function RootLayout({
     <html lang="es">
       <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
       <Clarity />
+      <StructuredData />
       <body
         className={`${inter.variable} ${playfair.variable} antialiased font-sans bg-slate-50 text-slate-900`}
       >
