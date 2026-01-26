@@ -10,10 +10,6 @@ export default function Home() {
       <HowItWorks />
       <UseCases />
       <Differential />
-
-      <footer className="py-8 text-center text-slate-500 text-sm border-t border-slate-100">
-        <p>© {new Date().getFullYear()} ConTacto. Asistente de comunicación inteligente.</p>
-      </footer>
     </main>
   );
 }
