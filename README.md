@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ConTacto
 
-## Getting Started
+**Asistente de Comunicación Estratégica**
 
-First, run the development server:
+ConTacto es una aplicación web diseñada para ayudarte a navegar conversaciones difíciles con inteligencia emocional y estrategia.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎯 Objetivo de la App
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Un asistente conversacional con IA que:
+- **Recibe un mensaje** que alguien quiere responder.
+- **Analiza el contexto**, intención y tono emocional.
+- **Devuelve sugerencias** de qué decir y cómo decirlo, optimizadas para el objetivo (convencer, aclarar, negociar, ser empático, etc.).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Características Principales
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Análisis Profundo**: Detecta el tono emocional, mensajes implícitos y riesgos potenciales en los mensajes recibidos.
+- **Contexto Personalizable**: Ajusta el análisis según el medio (chat, email), ámbito (trabajo, personal) y relación (jefe, pareja, cliente).
+- **Canvas de Respuesta**: Un editor inteligente donde puedes refinar la respuesta sugerida por la IA.
+- **Historial Local**: Guarda tus análisis y respuestas de forma segura en tu dispositivo.
+- **Notas y Comentarios**: Agrega reflexiones personales a cada análisis para un seguimiento detallado.
 
-## Learn More
+## 🛠️ Stack Tecnológico
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Lenguaje**: TypeScript
+- **Estilos**: Tailwind CSS + Framer Motion
+- **IA**: Google Gemini API (Modelo Flash 1.5)
+- **Estado**: Zustand (con persistencia local)
+- **Analítica**: Google Tag Manager & Microsoft Clarity
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Comenzar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerrequisitos
 
-## Deploy on Vercel
+- Node.js 18+
+- Una API Key de Google Gemini
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Instalación
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/contacto.git
+   cd contacto
+   ```
+
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+
+3. Configura las variables de entorno:
+   Crea un archivo `.env.local` en la raíz del proyecto y agrega tus claves:
+   ```env
+   NEXT_PUBLIC_GEMINI_API_KEY=tu_api_key_de_gemini
+   NEXT_PUBLIC_GTM_ID=tu_id_de_gtm (Opcional)
+   NEXT_PUBLIC_CLARITY_PROJECT_ID=tu_id_de_clarity (Opcional)
+   ```
+
+4. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+5. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## 📊 Guías de Configuración
+
+- [Configuración de Google Tag Manager](./GTM_SETUP.md)
+- [Configuración de Microsoft Clarity](./CLARITY_SETUP.md)
+
+---
+
+Hecho con ❤️ para mejorar la comunicación humana.
