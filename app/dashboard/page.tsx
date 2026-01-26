@@ -74,7 +74,7 @@ export default function Dashboard() {
                                 setCurrentAnalysis(null);
                                 setIsSidebarOpen(false);
                             }}
-                            className="w-full py-3 px-4 bg-slate-900 text-cream-50 rounded-2xl font-medium hover:bg-slate-800 transition-all shadow-lg shadow-sand-500/20"
+                            className="w-full py-3 px-4 btn-premium rounded-2xl font-medium hover:bg-slate-800 transition-all shadow-lg shadow-sand-500/20 transition-all"
                         >
                             Nuevo Análisis
                         </button>

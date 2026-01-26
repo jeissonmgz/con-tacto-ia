@@ -27,11 +27,9 @@ export default function Hero() {
                     <div className="flex justify-center gap-4">
                         <Link
                             href="/dashboard"
-                            onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Landing', label: 'Hero' })}
-                            className="group bg-slate-900 text-cream-50 px-8 py-4 rounded-full text-lg font-medium hover:bg-slate-800 transition-all flex items-center gap-2 shadow-xl shadow-sand-500/20"
+                            className="btn-premium px-10 py-4 rounded-full text-lg font-bold transition-all"
                         >
-                            Analizar un mensaje
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            Analizar mensaje
                         </Link>
                     </div>
                 </motion.div>

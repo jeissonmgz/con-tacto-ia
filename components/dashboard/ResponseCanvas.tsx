@@ -178,7 +178,7 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
                                 input.value = '';
                             }
                         }}
-                        className="bg-sand-900 text-cream-50 px-6 py-2 rounded-2xl text-sm font-bold hover:bg-slate-900 transition-all shadow-md shadow-sand-500/20"
+                        className="btn-premium px-6 py-2 rounded-2xl text-sm font-bold transition-all"
                     >
                         Agregar
                     </button>

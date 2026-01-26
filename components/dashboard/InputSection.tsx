@@ -97,8 +97,8 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                 <div className="flex justify-center">
                     <button
                         type="submit"
-                        disabled={isLoading || !message.trim()}
-                        className="bg-slate-900 text-cream-50 px-10 py-4 rounded-full font-medium hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg shadow-sand-500/20"
+                        disabled={isLoading}
+                        className="w-full btn-premium py-5 rounded-2xl text-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                     >
                         {isLoading ? (
                             <>

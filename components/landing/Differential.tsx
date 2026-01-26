@@ -23,7 +23,7 @@ export default function Differential() {
                     </p>
                     <Link
                         href="/dashboard"
-                        className="inline-block bg-cream-100 text-slate-900 px-10 py-4 rounded-full text-lg font-medium hover:bg-cream-200 transition-all shadow-lg shadow-black/20"
+                        className="btn-premium px-10 py-4 rounded-full text-lg font-bold transition-all"
                     >
                         Comenzar ahora
                     </Link>
