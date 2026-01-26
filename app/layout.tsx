@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { GoogleTagManager } from '@next/third-parties/google';
 import Clarity from "@/components/Clarity";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,6 +33,7 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} antialiased font-sans bg-slate-50 text-slate-900`}
       >
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
