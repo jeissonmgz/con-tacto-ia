@@ -56,6 +56,8 @@ export const metadata: Metadata = {
   },
 };
 
+import Footer from "@/components/layout/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -70,6 +72,7 @@ export default function RootLayout({
         <Clarity />
         <StructuredData />
         {children}
+        <Footer />
         <SpeedInsights />
         <Analytics />
       </body>
