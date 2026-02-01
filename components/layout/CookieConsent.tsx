@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Cookie, X } from 'lucide-react';
+import { sendGTMEvent } from '@/lib/gtm';
 
 export default function CookieConsent() {
     const [isVisible, setIsVisible] = useState(false);
@@ -20,11 +21,13 @@ export default function CookieConsent() {
         setIsVisible(false);
         // Trigger a custom event that layout.tsx can listen to
         window.dispatchEvent(new Event('cookie-consent-updated'));
+        sendGTMEvent({ event: 'cookie_consent', status: 'accepted' });
     };
 
     const handleDecline = () => {
         localStorage.setItem('contacto-consent', 'declined');
         setIsVisible(false);
+        sendGTMEvent({ event: 'cookie_consent', status: 'declined' });
     };
 
     return (

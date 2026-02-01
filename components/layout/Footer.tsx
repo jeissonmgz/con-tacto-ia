@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { sendGTMEvent } from '@/lib/gtm';
 
 export default function Footer() {
     return (
@@ -7,7 +8,11 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 w-full">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                     <div className="text-center md:text-left">
-                        <Link href="/" className="font-serif text-2xl font-bold text-slate-900 mb-2 block">
+                        <Link
+                            href="/"
+                            className="font-serif text-2xl font-bold text-slate-900 mb-2 block"
+                            onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Footer', label: 'Home' })}
+                        >
                             ConTacto
                         </Link>
                         <p className="text-sand-800 text-sm font-medium">
@@ -16,13 +21,25 @@ export default function Footer() {
                     </div>
 
                     <nav className="flex flex-wrap justify-center gap-6 md:gap-10">
-                        <Link href="/privacidad" className="text-sand-900 hover:text-slate-900 text-sm font-bold transition-colors">
+                        <Link
+                            href="/privacidad"
+                            className="text-sand-900 hover:text-slate-900 text-sm font-bold transition-colors"
+                            onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Footer', label: 'Privacidad' })}
+                        >
                             Privacidad
                         </Link>
-                        <Link href="/terminos" className="text-sand-900 hover:text-slate-900 text-sm font-bold transition-colors">
+                        <Link
+                            href="/terminos"
+                            className="text-sand-900 hover:text-slate-900 text-sm font-bold transition-colors"
+                            onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Footer', label: 'Términos' })}
+                        >
                             Términos
                         </Link>
-                        <Link href="/cookies" className="text-sand-900 hover:text-slate-900 text-sm font-bold transition-colors">
+                        <Link
+                            href="/cookies"
+                            className="text-sand-900 hover:text-slate-900 text-sm font-bold transition-colors"
+                            onClick={() => sendGTMEvent({ event: 'cta_click', category: 'Footer', label: 'Cookies' })}
+                        >
                             Cookies
                         </Link>
                     </nav>
