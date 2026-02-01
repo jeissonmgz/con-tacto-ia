@@ -84,7 +84,7 @@ export default function Dashboard() {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-[calc(100vh-64px)] md:h-screen relative z-0">
+            <main className="flex-1 p-4 md:p-8">
                 <div className="max-w-4xl mx-auto">
                     {!currentAnalysis ? (
                         <div className="max-w-2xl mx-auto pt-10 md:pt-20">
