@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@/store/useStore';
-import { Clock, MessageSquare } from 'lucide-react';
+import { Clock, MessageSquare, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -34,7 +34,11 @@ export default function HistorySidebar() {
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-sand-500 to-sand-600" />
                         )}
                         <div className="flex items-start gap-3 mb-3 relative z-10">
-                            <MessageSquare className={`w-4 h-4 mt-1 shrink-0 ${currentAnalysis?.id === item.id ? 'text-sand-800' : 'text-sand-600 group-hover:text-sand-800'} transition-colors`} />
+                            {item.type === 'outgoing' ? (
+                                <ArrowUpRight className={`w-4 h-4 mt-1 shrink-0 ${currentAnalysis?.id === item.id ? 'text-sand-800' : 'text-sand-600 group-hover:text-sand-800'} transition-colors`} />
+                            ) : (
+                                <ArrowDownLeft className={`w-4 h-4 mt-1 shrink-0 ${currentAnalysis?.id === item.id ? 'text-sand-800' : 'text-sand-600 group-hover:text-sand-800'} transition-colors`} />
+                            )}
                             <p className={`text-sm font-semibold line-clamp-2 leading-relaxed transition-colors ${currentAnalysis?.id === item.id ? 'text-slate-900' : 'text-slate-700 group-hover:text-slate-900'}`}>
                                 {item.originalMessage}
                             </p>

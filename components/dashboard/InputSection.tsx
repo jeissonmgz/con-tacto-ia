@@ -1,17 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, Loader2 } from 'lucide-react';
+import { Send, Loader2, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { sendGTMEvent } from '@/lib/gtm';
 
 interface InputSectionProps {
-    onSubmit: (data: { message: string; context: any }) => void;
+    onSubmit: (data: { message: string; context: any; type: 'incoming' | 'outgoing' }) => void;
     isLoading: boolean;
 }
 
 export default function InputSection({ onSubmit, isLoading }: InputSectionProps) {
     const [message, setMessage] = useState('');
+    const [type, setType] = useState<'incoming' | 'outgoing'>('incoming');
     const [context, setContext] = useState({
         medium: 'chat',
         scope: 'work',
@@ -26,10 +27,11 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
             event: 'analyze_message',
             category: 'Analysis',
             label: context.scope,
-            medium: context.medium
+            medium: context.medium,
+            type: type
         });
 
-        onSubmit({ message, context });
+        onSubmit({ message, context, type });
     };
 
     return (
@@ -39,14 +41,39 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
             className="glass p-8 rounded-[2.5rem]"
         >
             <form onSubmit={handleSubmit}>
+                <div className="flex bg-cream-100 rounded-xl p-1 mb-8 w-fit mx-auto md:mx-0 border border-cream-300">
+                    <button
+                        type="button"
+                        onClick={() => setType('incoming')}
+                        className={`px-5 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all ${type === 'incoming'
+                            ? 'bg-white text-sand-900 shadow-sm'
+                            : 'text-sand-600 hover:text-sand-800'
+                            }`}
+                    >
+                        <ArrowDownLeft className="w-4 h-4" />
+                        Mensaje Recibido
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setType('outgoing')}
+                        className={`px-5 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all ${type === 'outgoing'
+                            ? 'bg-white text-sand-900 shadow-sm'
+                            : 'text-sand-600 hover:text-sand-800'
+                            }`}
+                    >
+                        <ArrowUpRight className="w-4 h-4" />
+                        Mensaje a Enviar
+                    </button>
+                </div>
+
                 <div className="mb-6">
                     <label className="block text-sm font-bold text-slate-800 mb-2 ml-1">
-                        Mensaje a analizar
+                        {type === 'incoming' ? 'Mensaje recibido' : 'Tu respuesta (Borrador)'}
                     </label>
                     <textarea
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Pega aquí el mensaje que recibiste..."
+                        placeholder={type === 'incoming' ? "Pega aquí el mensaje que recibiste..." : "Escribe aquí lo que quieres decir..."}
                         className="w-full h-40 p-5 rounded-2xl border border-cream-300 focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 transition-all resize-none text-slate-900 placeholder:text-slate-500 bg-cream-50/50 backdrop-blur-sm font-medium"
                         required
                     />

@@ -10,30 +10,32 @@ const model = genAI.getGenerativeModel({
     generationConfig: { responseMimeType: "application/json" }
 });
 
-export async function analyzeMessage(message: string, context: any) {
+export async function analyzeMessage(message: string, context: any, type: 'incoming' | 'outgoing' = 'incoming') {
     if (!apiKey) {
         throw new Error("API Key not configured");
     }
 
+    const isIncoming = type === 'incoming';
+
     const prompt = `
     Actúa como un experto en comunicación estratégica y psicología emocional.
-    Analiza el siguiente mensaje recibido y genera una respuesta táctica.
+    Analiza el siguiente mensaje ${isIncoming ? 'recibido' : 'que el usuario desea enviar'} y genera una ${isIncoming ? 'respuesta táctica' : 'evaluación de impacto y sugerencias de mejora'}.
     
     Contexto:
     - Medio: ${context.medium}
     - Ámbito: ${context.scope}
     - Relación: ${context.relation}
     
-    Mensaje recibido:
+    Mensaje ${isIncoming ? 'recibido' : 'a enviar (borrador)'}:
     "${message}"
     
     Devuelve un JSON con esta estructura exacta:
     {
-      "emotionalTone": "Descripción breve del tono emocional del mensaje recibido",
-      "implicitMessage": "Lo que realmente quiere decir (subtexto)",
+      "emotionalTone": "Descripción breve del tono emocional del mensaje",
+      "implicitMessage": "${isIncoming ? 'Lo que realmente quiere decir (subtexto)' : 'Cómo podría ser percibido por el receptor'}",
       "risks": ["Riesgo 1", "Riesgo 2"],
       "clarifyingQuestions": ["Pregunta 1", "Pregunta 2"],
-      "suggestedResponse": "Borrador de respuesta sugerida, profesional y empática"
+      "suggestedResponse": "${isIncoming ? 'Borrador de respuesta sugerida, profesional y empática' : 'Versión mejorada del mensaje para maximizar claridad y empatía'}"
     }
     
     La respuesta debe ser en español, profesional, y adecuada al contexto.

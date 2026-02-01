@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 
 export interface AnalysisResult {
     id: string;
+    type?: 'incoming' | 'outgoing';
     originalMessage: string;
     context: {
         medium?: string;
