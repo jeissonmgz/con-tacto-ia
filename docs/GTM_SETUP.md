@@ -55,6 +55,11 @@ Crea un activador para cada evento personalizado:
 - **Tipo**: Evento personalizado
 - **Nombre del evento**: `cookie_consent`
 
+### Evento: Cambio de Contexto
+- **Nombre**: `Event - Context Change`
+- **Tipo**: Evento personalizado
+- **Nombre del evento**: `context_change`
+
 ## 4. Configuración de Etiquetas (Tags)
 
 Para enviar estos datos a GA4:

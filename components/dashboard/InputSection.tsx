@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Send, Loader2, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { sendGTMEvent } from '@/lib/gtm';
+import CustomSelect from './CustomSelect';
 
 interface InputSectionProps {
     onSubmit: (data: { message: string; context: any; type: 'incoming' | 'outgoing' }) => void;
@@ -18,6 +19,16 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
         scope: 'work',
         relation: 'peer'
     });
+
+    const handleContextChange = (field: string, value: string) => {
+        setContext(prev => ({ ...prev, [field]: value }));
+        sendGTMEvent({
+            event: 'context_change',
+            category: 'Context',
+            label: field,
+            value: value
+        });
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -81,43 +92,43 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                     <div>
-                        <label className="block text-[10px] font-bold text-sand-900 mb-1.5 uppercase tracking-widest ml-1">Medio</label>
-                        <select
+                        <CustomSelect
+                            label="Medio"
                             value={context.medium}
-                            onChange={(e) => setContext({ ...context, medium: e.target.value })}
-                            className="w-full p-3 rounded-xl border border-cream-300 text-sm focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 bg-cream-50/50 backdrop-blur-sm text-slate-900 appearance-none cursor-pointer font-semibold"
-                        >
-                            <option value="chat">Chat / Mensajería</option>
-                            <option value="email">Email</option>
-                            <option value="social">Redes Sociales</option>
-                        </select>
+                            onChange={(val) => handleContextChange('medium', val)}
+                            options={[
+                                { value: 'chat', label: 'Chat / Mensajería' },
+                                { value: 'email', label: 'Email' },
+                                { value: 'social', label: 'Redes Sociales' }
+                            ]}
+                        />
                     </div>
                     <div>
-                        <label className="block text-[10px] font-bold text-sand-900 mb-1.5 uppercase tracking-widest ml-1">Ámbito</label>
-                        <select
+                        <CustomSelect
+                            label="Ámbito"
                             value={context.scope}
-                            onChange={(e) => setContext({ ...context, scope: e.target.value })}
-                            className="w-full p-3 rounded-xl border border-cream-300 text-sm focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 bg-cream-50/50 backdrop-blur-sm text-slate-900 appearance-none cursor-pointer font-semibold"
-                        >
-                            <option value="work">Trabajo / Profesional</option>
-                            <option value="personal">Personal / Amigos</option>
-                            <option value="family">Familia</option>
-                            <option value="dating">Citas / Pareja</option>
-                        </select>
+                            onChange={(val) => handleContextChange('scope', val)}
+                            options={[
+                                { value: 'work', label: 'Trabajo / Profesional' },
+                                { value: 'personal', label: 'Personal / Amigos' },
+                                { value: 'family', label: 'Familia' },
+                                { value: 'dating', label: 'Citas / Pareja' }
+                            ]}
+                        />
                     </div>
                     <div>
-                        <label className="block text-[10px] font-bold text-sand-900 mb-1.5 uppercase tracking-widest ml-1">Relación</label>
-                        <select
+                        <CustomSelect
+                            label="Relación"
                             value={context.relation}
-                            onChange={(e) => setContext({ ...context, relation: e.target.value })}
-                            className="w-full p-3 rounded-xl border border-cream-300 text-sm focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 bg-cream-50/50 backdrop-blur-sm text-slate-900 appearance-none cursor-pointer font-semibold"
-                        >
-                            <option value="peer">Par / Colega</option>
-                            <option value="superior">Superior / Jefe</option>
-                            <option value="subordinate">Subordinado</option>
-                            <option value="client">Cliente</option>
-                            <option value="provider">Proveedor</option>
-                        </select>
+                            onChange={(val) => handleContextChange('relation', val)}
+                            options={[
+                                { value: 'peer', label: 'Par / Colega' },
+                                { value: 'superior', label: 'Superior / Jefe' },
+                                { value: 'subordinate', label: 'Subordinado' },
+                                { value: 'client', label: 'Cliente' },
+                                { value: 'provider', label: 'Proveedor' }
+                            ]}
+                        />
                     </div>
                 </div>
 
