@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { GoogleTagManager } from '@next/third-parties/google';
+import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google';
 import Clarity from "@/components/Clarity";
 
 export default function TrackingScripts() {
@@ -25,6 +25,7 @@ export default function TrackingScripts() {
     return (
         <>
             <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ""} />
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
             <Clarity />
         </>
     );
