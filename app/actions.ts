@@ -10,7 +10,46 @@ const model = genAI.getGenerativeModel({
     generationConfig: { responseMimeType: "application/json" }
 });
 
-export async function analyzeMessage(message: string, context: any, type: 'incoming' | 'outgoing' = 'incoming') {
+export async function analyzeMessage(
+    message: string,
+    context: any,
+    type: 'incoming' | 'outgoing' = 'incoming',
+    security?: { honeypot?: string; token?: string }
+) {
+    // 1. Honeypot Check
+    if (security?.honeypot && security.honeypot.trim() !== '') {
+        // Return a generic/fake response to fool the bot
+        return {
+            emotionalTone: "Neutral",
+            implicitMessage: "Mensaje procesado correctamente.",
+            risks: [],
+            clarifyingQuestions: [],
+            suggestedResponse: "Gracias por tu mensaje."
+        };
+    }
+
+    // 2. Cloudflare Turnstile Check
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret && security?.token) {
+        const formData = new FormData();
+        formData.append('secret', turnstileSecret);
+        formData.append('response', security.token);
+
+        try {
+            const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+                method: 'POST',
+                body: formData,
+            });
+            const outcome = await result.json();
+            if (!outcome.success) {
+                throw new Error("Verificación de seguridad fallida");
+            }
+        } catch (e) {
+            console.error("Turnstile validation error:", e);
+            throw new Error("Error en la verificación de seguridad");
+        }
+    }
+
     if (!apiKey) {
         throw new Error("API Key not configured");
     }

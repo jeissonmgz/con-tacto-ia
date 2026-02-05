@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, Loader2, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
+import { Send, Loader2, ArrowDownLeft, ArrowUpRight, CircleX } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { sendGTMEvent } from '@/lib/gtm';
 import CustomSelect from './CustomSelect';
+import Turnstile from "react-turnstile";
 
 interface InputSectionProps {
-    onSubmit: (data: { message: string; context: any; type: 'incoming' | 'outgoing' }) => void;
+    onSubmit: (data: { message: string; context: any; type: 'incoming' | 'outgoing'; security: { honeypot: string; token?: string } }) => void;
     isLoading: boolean;
 }
 
@@ -19,6 +20,17 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
         scope: 'work',
         relation: 'peer'
     });
+    const [turnstileInfo, setTurnstileInfo] = useState<{
+        status: "success" | "error" | "expired" | "required";
+        token: string;
+        error: string | null
+    }>({
+        status: "required",
+        token: "",
+        error: null
+    });
+
+    const [honeypot, setHoneypot] = useState('');
 
     const handleContextChange = (field: string, value: string) => {
         setContext(prev => ({ ...prev, [field]: value }));
@@ -41,8 +53,15 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
             medium: context.medium,
             type: type
         });
-
-        onSubmit({ message, context, type });
+        onSubmit({
+            message,
+            context,
+            type,
+            security: {
+                honeypot,
+                token: turnstileInfo.token
+            }
+        });
     };
 
     return (
@@ -52,6 +71,20 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
             className="glass p-8 rounded-[2.5rem]"
         >
             <form onSubmit={handleSubmit}>
+                <div style={{ display: 'none' }} aria-hidden="true">
+                    <label htmlFor="contexto" aria-hidden="true">Contexto</label>
+                    <input
+                        type="text"
+                        name="contexto"
+                        id="contexto"
+                        value={honeypot}
+                        onChange={(e) => setHoneypot(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                    />
+                </div>
+
                 <div className="flex bg-cream-100 rounded-xl p-1 mb-8 w-fit mx-auto md:mx-0 border border-cream-300">
                     <button
                         type="button"
@@ -132,7 +165,60 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                     </div>
                 </div>
 
-                <div className="flex justify-center">
+                {!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                    <div className="glass-error px-4 py-2 rounded-md text-xs text-center font-bold mb-6 flex items-center gap-2">
+                        <CircleX className="w-4 h-4" />
+                        Turnstile no configurado
+                    </div>
+                )}
+                {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                    <Turnstile
+                        sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY! as string}
+                        retry="auto"
+                        refreshExpired="auto"
+                        theme="light"
+                        onError={() => {
+                            setTurnstileInfo({
+                                status: "error",
+                                token: "",
+                                error: "La verificación de seguridad falló. Por favor, intenta de nuevo."
+                            });
+                        }}
+                        onExpire={() => {
+                            setTurnstileInfo({
+                                status: "expired",
+                                token: "",
+                                error: "La verificación de seguridad expiró. Por favor, verifica de nuevo."
+                            });
+                        }}
+                        onLoad={() => {
+                            setTurnstileInfo({
+                                status: "required",
+                                token: "",
+                                error: null
+                            });
+                        }}
+                        onVerify={(token) => {
+                            setTurnstileInfo({
+                                status: "success",
+                                token: token,
+                                error: null
+                            });
+                        }}
+                        size="invisible"
+                    />
+                )}
+
+                {turnstileInfo.error && (
+                    <div
+                        className="glass-error px-4 py-2 rounded-md text-xs text-center font-bold mb-6 flex items-center gap-2"
+                        aria-live="polite">
+                        <CircleX className="w-4 h-4" />
+                        {turnstileInfo.error}
+                    </div>
+                )}
+
+                <div className="flex justify-center flex-col items-center gap-4">
                     <button
                         type="submit"
                         disabled={isLoading}

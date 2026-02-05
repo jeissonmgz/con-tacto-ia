@@ -72,6 +72,15 @@ h6 {
   color: var(--color-cream-50);
 }
 
+.glass-error {
+  background: linear-gradient(135deg, rgba(254, 226, 226, 0.7), rgba(254, 242, 242, 0.5));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.05);
+  color: #dc2626;
+}
+
 .btn-premium {
   background: linear-gradient(to top right, var(--color-sand-900), var(--color-sand-600));
   color: var(--color-cream-50);

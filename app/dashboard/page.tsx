@@ -14,10 +14,10 @@ export default function Dashboard() {
     const [isLoading, setIsLoading] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const handleAnalyze = async (data: { message: string; context: any; type: 'incoming' | 'outgoing' }) => {
+    const handleAnalyze = async (data: { message: string; context: any; type: 'incoming' | 'outgoing'; security: { honeypot: string; token?: string } }) => {
         setIsLoading(true);
         try {
-            const result = await analyzeMessage(data.message, data.context, data.type);
+            const result = await analyzeMessage(data.message, data.context, data.type, data.security);
 
             const newAnalysis: AnalysisResult = {
                 id: crypto.randomUUID(),
