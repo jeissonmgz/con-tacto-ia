@@ -66,7 +66,9 @@ Un asistente conversacional con IA que:
 ## 📊 Guías de Configuración
 
 - [Configuración de Google Tag Manager](./GTM_SETUP.md)
-- [Configuración de Microsoft Clarity](./CLARITY_SETUP.md)
+- [Configuración de Microsoft Clarity](./docs/CLARITY_SETUP.md)
+- [Configuración de Google Analytics](./docs/GA_SETUP.md)
+- [Configuración de Cloudflare Turnstile](./docs/TURNSTILE_SETUP.md)
 
 ---
 
