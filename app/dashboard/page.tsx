@@ -46,7 +46,7 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-cream-100 flex flex-col md:flex-row selection:bg-sand-500/30">
+        <div className="min-h-screen bg-dashboard-gradient flex flex-col md:flex-row selection:bg-sand-500/30">
             {/* Mobile Header */}
             <div className="md:hidden bg-cream-50/80 backdrop-blur-md p-4 border-b border-cream-200 flex justify-between items-center sticky top-0 z-30">
                 <Link href="/" className="font-serif text-xl font-bold text-slate-900">ConTacto</Link>
@@ -57,7 +57,7 @@ export default function Dashboard() {
 
             {/* Sidebar */}
             <aside className={`
-        fixed inset-y-0 left-0 z-50 w-80 bg-cream-50/90 backdrop-blur-xl border-r border-cream-200 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0
+        fixed inset-y-0 left-0 z-50 w-80 bg-cream-50/90 backdrop-blur-xl border-r border-cream-200 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:h-screen md:sticky md:top-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
                 <div className="p-6 h-full flex flex-col">

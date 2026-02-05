@@ -81,6 +81,11 @@ h6 {
   color: #dc2626;
 }
 
+.bg-dashboard-gradient {
+  background: linear-gradient(135deg, var(--color-cream-50) 0%, var(--color-cream-100) 50%, var(--color-cream-200) 100%);
+  background-attachment: fixed;
+}
+
 .btn-premium {
   background: linear-gradient(to top right, var(--color-sand-900), var(--color-sand-600));
   color: var(--color-cream-50);
