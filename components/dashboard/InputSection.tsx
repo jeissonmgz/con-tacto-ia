@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, Loader2, ArrowDownLeft, ArrowUpRight, CircleX } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Send, Loader2, ArrowDownLeft, ArrowUpRight, CircleX, ChevronDown, ChevronUp, Settings2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { sendGTMEvent } from '@/lib/gtm';
 import CustomSelect from './CustomSelect';
 import Turnstile from "react-turnstile";
@@ -15,10 +15,11 @@ interface InputSectionProps {
 export default function InputSection({ onSubmit, isLoading }: InputSectionProps) {
     const [message, setMessage] = useState('');
     const [type, setType] = useState<'incoming' | 'outgoing'>('incoming');
+    const [showContext, setShowContext] = useState(false);
     const [context, setContext] = useState({
-        medium: 'chat',
-        scope: 'work',
-        relation: 'peer'
+        medium: '',
+        scope: '',
+        relation: ''
     });
     const [turnstileInfo, setTurnstileInfo] = useState<{
         status: "success" | "error" | "expired" | "required";
@@ -53,9 +54,10 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
             medium: context.medium,
             type: type
         });
+
         onSubmit({
             message,
-            context,
+            context: showContext ? context : { medium: '', scope: '', relation: '' },
             type,
             security: {
                 honeypot,
@@ -123,46 +125,73 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                     />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div>
-                        <CustomSelect
-                            label="Medio"
-                            value={context.medium}
-                            onChange={(val) => handleContextChange('medium', val)}
-                            options={[
-                                { value: 'chat', label: 'Chat / Mensajería' },
-                                { value: 'email', label: 'Email' },
-                                { value: 'social', label: 'Redes Sociales' }
-                            ]}
-                        />
-                    </div>
-                    <div>
-                        <CustomSelect
-                            label="Ámbito"
-                            value={context.scope}
-                            onChange={(val) => handleContextChange('scope', val)}
-                            options={[
-                                { value: 'work', label: 'Trabajo / Profesional' },
-                                { value: 'personal', label: 'Personal / Amigos' },
-                                { value: 'family', label: 'Familia' },
-                                { value: 'dating', label: 'Citas / Pareja' }
-                            ]}
-                        />
-                    </div>
-                    <div>
-                        <CustomSelect
-                            label="Relación"
-                            value={context.relation}
-                            onChange={(val) => handleContextChange('relation', val)}
-                            options={[
-                                { value: 'peer', label: 'Par / Colega' },
-                                { value: 'superior', label: 'Superior / Jefe' },
-                                { value: 'subordinate', label: 'Subordinado' },
-                                { value: 'client', label: 'Cliente' },
-                                { value: 'provider', label: 'Proveedor' }
-                            ]}
-                        />
-                    </div>
+
+                <div className="mb-6">
+                    <button
+                        type="button"
+                        onClick={() => setShowContext(!showContext)}
+                        className="flex items-center gap-2 text-sm font-bold text-sand-600 hover:text-sand-800 transition-colors"
+                    >
+                        <Settings2 className="w-4 h-4" />
+                        {showContext ? 'Ocultar contexto (Opcional)' : 'Agregar contexto (Opcional)'}
+                        {showContext ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </button>
+
+                    <AnimatePresence>
+                        {showContext && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0, marginTop: 0, overflow: 'hidden' }}
+                                animate={{ height: 'auto', opacity: 1, marginTop: 24, transitionEnd: { overflow: 'visible' } }}
+                                exit={{ height: 0, opacity: 0, marginTop: 0, overflow: 'hidden' }}
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <CustomSelect
+                                            label="Medio"
+                                            value={context.medium}
+                                            onChange={(val) => handleContextChange('medium', val)}
+                                            options={[
+                                                { value: 'chat', label: 'Chat / Mensajería' },
+                                                { value: 'email', label: 'Email' },
+                                                { value: 'social', label: 'Redes Sociales' },
+                                                { value: 'voice', label: 'Voz' }
+                                            ]}
+                                            placeholder="Seleccionar..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <CustomSelect
+                                            label="Ámbito"
+                                            value={context.scope}
+                                            onChange={(val) => handleContextChange('scope', val)}
+                                            options={[
+                                                { value: 'work', label: 'Trabajo / Profesional' },
+                                                { value: 'personal', label: 'Personal / Amigos' },
+                                                { value: 'family', label: 'Familia' },
+                                                { value: 'dating', label: 'Citas / Pareja' }
+                                            ]}
+                                            placeholder="Seleccionar..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <CustomSelect
+                                            label="Relación"
+                                            value={context.relation}
+                                            onChange={(val) => handleContextChange('relation', val)}
+                                            options={[
+                                                { value: 'peer', label: 'Par / Colega' },
+                                                { value: 'superior', label: 'Superior / Jefe' },
+                                                { value: 'subordinate', label: 'Subordinado' },
+                                                { value: 'client', label: 'Cliente' },
+                                                { value: 'provider', label: 'Proveedor' }
+                                            ]}
+                                            placeholder="Seleccionar..."
+                                        />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
 
                 {!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
@@ -238,6 +267,6 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                     </button>
                 </div>
             </form>
-        </motion.div>
+        </motion.div >
     );
 }

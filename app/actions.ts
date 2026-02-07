@@ -56,14 +56,25 @@ export async function analyzeMessage(
 
     const isIncoming = type === 'incoming';
 
+    let promptContext = "";
+    if (context.medium || context.scope || context.relation) {
+        promptContext = `
+    Contexto:
+    ${context.medium ? `- Medio: ${context.medium}` : ''}
+    ${context.scope ? `- Ámbito: ${context.scope}` : ''}
+    ${context.relation ? `- Relación: ${context.relation}` : ''}
+        `;
+    } else {
+        promptContext = `
+    Contexto:
+    - No especificado (asumir contexto general)
+        `;
+    }
+
     const prompt = `
     Actúa como un experto en comunicación estratégica y psicología emocional.
     Analiza el siguiente mensaje ${isIncoming ? 'recibido' : 'que el usuario desea enviar'} y genera una ${isIncoming ? 'respuesta táctica' : 'evaluación de impacto y sugerencias de mejora'}.
-    
-    Contexto:
-    - Medio: ${context.medium}
-    - Ámbito: ${context.scope}
-    - Relación: ${context.relation}
+    ${promptContext}
     
     Mensaje ${isIncoming ? 'recibido' : 'a enviar (borrador)'}:
     "${message}"
