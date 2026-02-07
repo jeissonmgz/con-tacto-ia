@@ -101,3 +101,68 @@ export async function analyzeMessage(
         throw new Error("Failed to analyze message");
     }
 }
+
+export async function refineResponse(
+    originalMessage: string,
+    currentResponse: string,
+    context: any,
+    instruction: string,
+    history: string[] = [] // Optional: previous comments/iterations
+) {
+    if (!apiKey) {
+        throw new Error("API Key not configured");
+    }
+
+    let promptContext = "";
+    if (context.medium || context.scope || context.relation) {
+        promptContext = `
+    Contexto original:
+    ${context.medium ? `- Medio: ${context.medium}` : ''}
+    ${context.scope ? `- Ámbito: ${context.scope}` : ''}
+    ${context.relation ? `- Relación: ${context.relation}` : ''}
+        `;
+    }
+
+    const prompt = `
+    Actúa como un experto en comunicación estratégica.
+    
+    TAREA: Refinar una respuesta sugerida basándose en una instrucción específica del usuario.
+    
+    ${promptContext}
+    
+    Mensaje Original (al que se responde):
+    "${originalMessage}"
+    
+    Respuesta sugerida actual:
+    "${currentResponse}"
+    
+    Historial de cambios solicitados:
+    ${history.length > 0 ? history.map(h => `- ${h}`).join('\n') : "Ninguno."}
+    
+    INSTRUCCIÓN DE REFINAMIENTO (Lo que el usuario quiere cambiar):
+    "${instruction}"
+    
+    Genera una nueva versión de la respuesta que cumpla con la instrucción.
+    
+    Devuelve un JSON con esta estructura exacta:
+    {
+      "emotionalTone": "Nuevo tono emocional (si cambió)",
+      "implicitMessage": "Nuevo mensaje implícito (si cambió)",
+      "risks": ["Nuevos riesgos o advertencias (si aplican)"],
+      "clarifyingQuestions": ["Nuevas preguntas si la instrucción es ambigua (o vacío)"],
+      "suggestedResponse": "La nueva versión refinada de la respuesta"
+    }
+    
+    La respuesta debe ser en español.
+  `;
+
+    try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        return JSON.parse(text);
+    } catch (error) {
+        console.error("Error refining message:", error);
+        throw new Error("Failed to refine message");
+    }
+}

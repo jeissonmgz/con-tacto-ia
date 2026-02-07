@@ -9,9 +9,11 @@ import { sendGTMEvent } from '@/lib/gtm';
 interface ResponseCanvasProps {
     data: AnalysisResult;
     onUpdate: (data: AnalysisResult) => void;
+    onRefine: (instruction: string) => Promise<void>;
+    isRefining: boolean;
 }
 
-export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) {
+export default function ResponseCanvas({ data, onUpdate, onRefine, isRefining }: ResponseCanvasProps) {
     const [editedResponse, setEditedResponse] = useState(data.userEditedResponse || data.analysis.suggestedResponse);
     const [copied, setCopied] = useState(false);
 
@@ -42,6 +44,12 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
             animate={{ opacity: 1 }}
             className="space-y-8"
         >
+            {/* Original Message Card */}
+            <div className="glass p-6 rounded-3xl border border-sand-500/20 shadow-sm">
+                <h3 className="text-[10px] font-bold text-sand-800 mb-3 uppercase tracking-widest">Mensaje Original</h3>
+                <p className="text-slate-700 italic text-lg font-serif">"{data.originalMessage}"</p>
+            </div>
+
             {/* Analysis Cards */}
             {/* Analysis Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -139,34 +147,33 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
                 </div>
             )}
 
-            {/* Comments Section */}
+            {/* Refinement Section */}
             <div className="glass p-8 rounded-[2.5rem]">
-                <h3 className="font-serif text-xl font-bold text-slate-900 mb-6">Notas y Comentarios</h3>
-                <div className="space-y-4 mb-6">
-                    {data.comments.map((comment, i) => (
-                        <div key={i} className="bg-cream-50/50 p-4 rounded-2xl border border-cream-200 text-sm text-slate-900 shadow-sm font-medium">
-                            {comment}
-                        </div>
-                    ))}
-                    {data.comments.length === 0 && (
-                        <p className="text-slate-500 text-sm italic font-medium">No hay notas aún.</p>
-                    )}
-                </div>
+                <h3 className="font-serif text-xl font-bold text-slate-900 mb-6">Refinar Respuesta</h3>
+
+                {/* History of changes */}
+                {data.comments.length > 0 && (
+                    <div className="space-y-4 mb-6">
+                        <h4 className="text-xs font-bold text-sand-600 uppercase tracking-wider mb-2">Historial de cambios</h4>
+                        {data.comments.map((comment, i) => (
+                            <div key={i} className="bg-cream-50/50 p-3 rounded-xl border border-cream-200 text-sm text-slate-600 italic">
+                                "{comment}"
+                            </div>
+                        ))}
+                    </div>
+                )}
+
                 <div className="flex gap-3">
                     <input
                         type="text"
-                        placeholder="Agregar una nota personal..."
-                        className="flex-1 p-4 rounded-2xl border border-cream-200 focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 text-sm bg-cream-50/30 transition-all text-slate-900 placeholder:text-slate-500 font-medium"
+                        placeholder="Ej: Hazlo más formal, agrega que estaré fuera..."
+                        disabled={isRefining}
+                        className="flex-1 p-4 rounded-2xl border border-cream-200 focus:border-sand-500 focus:ring-2 focus:ring-sand-500/20 text-sm bg-cream-50/30 transition-all text-slate-900 placeholder:text-slate-500 font-medium disabled:opacity-50"
                         onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
+                            if (e.key === 'Enter' && !isRefining) {
                                 const val = e.currentTarget.value.trim();
                                 if (val) {
-                                    onUpdate({ ...data, comments: [...data.comments, val] });
-                                    sendGTMEvent({
-                                        event: 'add_comment',
-                                        category: 'Engagement',
-                                        label: data.id
-                                    });
+                                    onRefine(val);
                                     e.currentTarget.value = '';
                                 }
                             }
@@ -174,20 +181,23 @@ export default function ResponseCanvas({ data, onUpdate }: ResponseCanvasProps) 
                     />
                     <button
                         onClick={() => {
-                            const input = document.querySelector('input[placeholder="Agregar una nota personal..."]') as HTMLInputElement;
-                            if (input && input.value.trim()) {
-                                onUpdate({ ...data, comments: [...data.comments, input.value.trim()] });
-                                sendGTMEvent({
-                                    event: 'add_comment',
-                                    category: 'Engagement',
-                                    label: data.id
-                                });
+                            const input = document.querySelector('input[placeholder="Ej: Hazlo más formal, agrega que estaré fuera..."]') as HTMLInputElement;
+                            if (input && input.value.trim() && !isRefining) {
+                                onRefine(input.value.trim());
                                 input.value = '';
                             }
                         }}
-                        className="btn-premium px-6 py-2 rounded-2xl text-sm font-bold transition-all"
+                        disabled={isRefining}
+                        className="btn-premium px-6 py-2 rounded-2xl text-sm font-bold transition-all disabled:opacity-50 flex items-center gap-2"
                     >
-                        Agregar
+                        {isRefining ? (
+                            <>
+                                <RefreshCw className="w-4 h-4 animate-spin" />
+                                Refinando...
+                            </>
+                        ) : (
+                            'Refinar'
+                        )}
                     </button>
                 </div>
             </div>

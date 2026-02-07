@@ -5,13 +5,14 @@ import { useStore, AnalysisResult } from '@/store/useStore';
 import InputSection from '@/components/dashboard/InputSection';
 import ResponseCanvas from '@/components/dashboard/ResponseCanvas';
 import HistorySidebar from '@/components/dashboard/HistorySidebar';
-import { analyzeMessage } from '@/app/actions';
+import { analyzeMessage, refineResponse } from '@/app/actions';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
     const { currentAnalysis, setCurrentAnalysis, addToHistory, updateHistoryItem } = useStore();
     const [isLoading, setIsLoading] = useState(false);
+    const [isRefining, setIsRefining] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const handleAnalyze = async (data: { message: string; context: any; type: 'incoming' | 'outgoing'; security: { honeypot: string; token?: string } }) => {
@@ -43,6 +44,34 @@ export default function Dashboard() {
     const handleUpdate = (updated: AnalysisResult) => {
         setCurrentAnalysis(updated);
         updateHistoryItem(updated.id, updated);
+    };
+
+    const handleRefine = async (instruction: string) => {
+        if (!currentAnalysis) return;
+        setIsRefining(true);
+        try {
+            const refinedResult = await refineResponse(
+                currentAnalysis.originalMessage,
+                currentAnalysis.userEditedResponse || currentAnalysis.analysis.suggestedResponse,
+                currentAnalysis.context,
+                instruction,
+                currentAnalysis.comments
+            );
+
+            const updatedAnalysis: AnalysisResult = {
+                ...currentAnalysis,
+                analysis: refinedResult,
+                userEditedResponse: refinedResult.suggestedResponse,
+                comments: [...currentAnalysis.comments, instruction]
+            };
+
+            handleUpdate(updatedAnalysis);
+        } catch (error) {
+            console.error(error);
+            alert("Error al refinar la respuesta.");
+        } finally {
+            setIsRefining(false);
+        }
     };
 
     return (
@@ -107,7 +136,12 @@ export default function Dashboard() {
                                     Volver
                                 </button>
                             </div>
-                            <ResponseCanvas data={currentAnalysis} onUpdate={handleUpdate} />
+                            <ResponseCanvas
+                                data={currentAnalysis}
+                                onUpdate={handleUpdate}
+                                onRefine={handleRefine}
+                                isRefining={isRefining}
+                            />
                         </div>
                     )}
                 </div>

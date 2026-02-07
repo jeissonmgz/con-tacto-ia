@@ -141,8 +141,20 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                         {showContext && (
                             <motion.div
                                 initial={{ height: 0, opacity: 0, marginTop: 0, overflow: 'hidden' }}
-                                animate={{ height: 'auto', opacity: 1, marginTop: 24, transitionEnd: { overflow: 'visible' } }}
+                                animate={{
+                                    height: 'auto',
+                                    opacity: 1,
+                                    marginTop: 24,
+                                    transitionEnd: { overflow: 'visible' }
+                                }}
                                 exit={{ height: 0, opacity: 0, marginTop: 0, overflow: 'hidden' }}
+                                style={{ overflow: 'hidden' }} // Fallback
+                                onAnimationComplete={() => {
+                                    // Force overflow visible after animation
+                                    const el = document.getElementById('context-container');
+                                    if (el) el.style.overflow = 'visible';
+                                }}
+                                id="context-container"
                             >
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
@@ -175,7 +187,7 @@ export default function InputSection({ onSubmit, isLoading }: InputSectionProps)
                                     </div>
                                     <div>
                                         <CustomSelect
-                                            label="Relación"
+                                            label="Mi rol es"
                                             value={context.relation}
                                             onChange={(val) => handleContextChange('relation', val)}
                                             options={[
